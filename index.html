@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌼 Flores Amarillas para Ti 🌼</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a0f0a 0%, #1a2a1a 100%);
+            overflow-x: hidden;
+            position: relative;
+            font-family: 'Poppins', 'Segoe UI', 'Arial', sans-serif;
+        }
+
+        /* Cielo estrellado */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: radial-gradient(2px 2px at 20px 30px, #fff, rgba(0,0,0,0)),
+                        radial-gradient(1px 1px at 40px 70px, #fff, rgba(0,0,0,0)),
+                        radial-gradient(3px 3px at 80px 50px, #ffd700, rgba(0,0,0,0));
+            background-size: 200px 200px;
+            background-repeat: no-repeat;
+            opacity: 0.6;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+
+        /* Contenedor principal del jardín */
+        .garden {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-end;
+            padding: 80px 20px 150px;
+            gap: 30px;
+        }
+
+        /* Estilo base de cada flor */
+        .flower-card {
+            position: relative;
+        }
+
+        .flower-container {
+            position: relative;
+            width: 170px;
+            height: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Pétalos de la flor */
+        .flower-petal {
+            position: relative;
+            width: 95px;
+            height: 95px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .petal {
+            position: absolute;
+            width: 42px;
+            height: 65px;
+            background: radial-gradient(circle at 30% 30%, #fff4b0, #ffd700, #f7b42c);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2), inset 0 0 15px rgba(255,255,200,0.8);
+            transform-origin: center bottom;
+        }
+
+        .petal:nth-child(1) { transform: rotate(0deg) translateY(-25px); }
+        .petal:nth-child(2) { transform: rotate(45deg) translateY(-25px); }
+        .petal:nth-child(3) { transform: rotate(90deg) translateY(-25px); }
+        .petal:nth-child(4) { transform: rotate(135deg) translateY(-25px); }
+        .petal:nth-child(5) { transform: rotate(180deg) translateY(-25px); }
+        .petal:nth-child(6) { transform: rotate(225deg) translateY(-25px); }
+        .petal:nth-child(7) { transform: rotate(270deg) translateY(-25px); }
+        .petal:nth-child(8) { transform: rotate(315deg) translateY(-25px); }
+
+        /* Centro de la flor */
+        .center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 32px;
+            height: 32px;
+            background: radial-gradient(circle, #ff8800, #b45f1b);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255,200,0,0.8), inset 0 0 5px rgba(255,255,200,0.8);
+            z-index: 10;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .center::before {
+            content: "✨";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 18px;
+            opacity: 0.8;
+        }
+
+        /* Tallo */
+        .stem {
+            width: 7px;
+            height: 130px;
+            background: linear-gradient(to bottom, #2e7d32, #1b5e20, #0a3d0a);
+            margin-top: -10px;
+            border-radius: 5px;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* Hojas */
+        .leaf {
+            position: absolute;
+            width: 22px;
+            height: 35px;
+            background: linear-gradient(135deg, #4caf50, #2e7d32);
+            border-radius: 50% 0 50% 0;
+            transform-origin: left center;
+        }
+
+        .leaf-left {
+            left: -18px;
+            top: 35px;
+            transform: rotate(-45deg);
+        }
+
+        .leaf-right {
+            right: -18px;
+            top: 35px;
+            transform: rotate(45deg);
+        }
+
+        .leaf-bottom {
+            left: -12px;
+            top: 75px;
+            transform: rotate(-30deg) scale(0.8);
+        }
+
+        /* Brillo alrededor */
+        .glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,215,0,0.3), transparent);
+            animation: glowPulse 2s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        /* Mensaje principal */
+        .main-message {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #ffd700, #ffb347);
+            color: #2c1e0f;
+            font-size: clamp(20px, 5vw, 42px);
+            font-weight: bold;
+            padding: 15px 35px;
+            border-radius: 60px;
+            text-align: center;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3), 0 0 20px rgba(255,215,0,0.5);
+            animation: slideUp 0.8s ease-out, glowText 2s ease-in-out infinite;
+            white-space: nowrap;
+            backdrop-filter: blur(5px);
+            letter-spacing: 2px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        @keyframes glowText {
+            0%, 100% { text-shadow: 0 0 10px rgba(255,215,0,0.5); }
+            50% { text-shadow: 0 0 25px rgba(255,215,0,0.9); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.08); }
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.15); }
+        }
+
+        /* Lluvia de pétalos */
+        .petal-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            overflow: hidden;
+        }
+
+        .falling-petal {
+            position: absolute;
+            width: 12px;
+            height: 18px;
+            background: radial-gradient(circle, #ffd700, #ffb347);
+            border-radius: 50% 50% 0 50%;
+            opacity: 0.6;
+            animation: fall linear forwards;
+            pointer-events: none;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Flores flotantes decorativas */
+        .floating-flower {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0.4;
+            animation: floatAround 25s linear infinite;
+            font-size: 24px;
+        }
+
+        @keyframes floatAround {
+            0% {
+                transform: translateX(-100px) rotate(0deg);
+            }
+            100% {
+                transform: translateX(100vw) rotate(360deg);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .garden {
+                gap: 20px;
+                padding: 60px 15px 140px;
+            }
+            .flower-container {
+                width: 140px;
+                height: 240px;
+            }
+            .flower-petal {
+                width: 80px;
+                height: 80px;
+            }
+            .petal {
+                width: 35px;
+                height: 55px;
+            }
+            .stem {
+                height: 105px;
+            }
+            .main-message {
+                font-size: 18px;
+                padding: 10px 20px;
+                white-space: nowrap;
+                bottom: 25px;
+            }
+            .center::before {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-message {
+                font-size: 14px;
+                padding: 8px 16px;
+                white-space: nowrap;
+            }
+            .garden {
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="petal-rain" id="petalRain"></div>
+    <div class="main-message">🌻 ¡FLORES AMARILLAS PARA TI! 🌻</div>
+    
+    <div class="garden" id="garden"></div>
+
+    <script>
+        // Lista de mensajes bonitos (solo para título, sin interactividad)
+        const flowerMessages = [
+            "Eres especial",
+            "Brillas como el sol",
+            "Eres mi alegría",
+            "Sonríe siempre",
+            "Eres única",
+            "Bella como una flor",
+            "Iluminas mi vida",
+            "Te quiero mucho",
+            "Felicidad pura",
+            "Eres increíble"
+        ];
+
+        // Función para crear una flor
+        function createFlower(index) {
+            const flowerCard = document.createElement('div');
+            flowerCard.className = 'flower-card';
+            
+            const flowerContainer = document.createElement('div');
+            flowerContainer.className = 'flower-container';
+            
+            // Pétalos
+            const flowerPetal = document.createElement('div');
+            flowerPetal.className = 'flower-petal';
+            flowerPetal.style.animationDelay = `${(index % 5) * 0.3}s`;
+            
+            for (let i = 1; i <= 8; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                flowerPetal.appendChild(petal);
+            }
+            
+            // Centro
+            const center = document.createElement('div');
+            center.className = 'center';
+            flowerPetal.appendChild(center);
+            
+            // Brillo
+            const glow = document.createElement('div');
+            glow.className = 'glow';
+            flowerPetal.appendChild(glow);
+            
+            // Tallo
+            const stem = document.createElement('div');
+            stem.className = 'stem';
+            
+            // Hojas
+            const leafLeft = document.createElement('div');
+            leafLeft.className = 'leaf leaf-left';
+            const leafRight = document.createElement('div');
+            leafRight.className = 'leaf leaf-right';
+            const leafBottom = document.createElement('div');
+            leafBottom.className = 'leaf leaf-bottom';
+            
+            stem.appendChild(leafLeft);
+            stem.appendChild(leafRight);
+            stem.appendChild(leafBottom);
+            
+            flowerContainer.appendChild(flowerPetal);
+            flowerContainer.appendChild(stem);
+            flowerCard.appendChild(flowerContainer);
+            
+            return flowerCard;
+        }
+        
+        // Crear lluvia de pétalos
+        function createPetalRain() {
+            const rainContainer = document.getElementById('petalRain');
+            setInterval(() => {
+                const petal = document.createElement('div');
+                petal.className = 'falling-petal';
+                petal.style.left = `${Math.random() * 100}%`;
+                petal.style.width = `${8 + Math.random() * 10}px`;
+                petal.style.height = `${12 + Math.random() * 12}px`;
+                petal.style.animationDuration = `${3 + Math.random() * 4}s`;
+                rainContainer.appendChild(petal);
+                
+                setTimeout(() => petal.remove(), 7000);
+            }, 400);
+        }
+        
+        // Crear flores flotantes decorativas
+        function createFloatingFlowers() {
+            const flowersList = ['🌼', '🌻', '🌸', '✨', '💛', '⭐'];
+            for (let i = 0; i < 20; i++) {
+                const flower = document.createElement('div');
+                flower.className = 'floating-flower';
+                flower.textContent = flowersList[Math.floor(Math.random() * flowersList.length)];
+                flower.style.fontSize = `${18 + Math.random() * 28}px`;
+                flower.style.top = `${Math.random() * 85}%`;
+                flower.style.left = `${Math.random() * 100}%`;
+                flower.style.animationDuration = `${18 + Math.random() * 20}s`;
+                flower.style.animationDelay = `${Math.random() * 15}s`;
+                document.body.appendChild(flower);
+            }
+        }
+        
+        // Añadir flores al jardín
+        function addFlowers(count) {
+            const garden = document.getElementById('garden');
+            for (let i = 0; i < count; i++) {
+                const newFlower = createFlower(i);
+                // Diferentes tamaños para variedad
+                const randomScale = 0.75 + Math.random() * 0.7;
+                newFlower.style.transform = `scale(${randomScale})`;
+                newFlower.style.zIndex = Math.floor(randomScale * 10);
+                garden.appendChild(newFlower);
+            }
+        }
+        
+        // Inicializar todo
+        function init() {
+            addFlowers(32); // 32 flores hermosas
+            
+            // Pequeño ajuste de posición para algunas flores
+            const flowers = document.querySelectorAll('.flower-card');
+            flowers.forEach((flower, idx) => {
+                const randomY = Math.random() * 15 - 5;
+                flower.style.marginTop = `${randomY}px`;
+            });
+        }
+        
+        // Iniciar
+        init();
+        createPetalRain();
+        createFloatingFlowers();
+        
+        // Pequeño efecto de aparición suave
+        document.body.style.opacity = '0';
+        setTimeout(() => {
+            document.body.style.transition = 'opacity 1.5s ease';
+            document.body.style.opacity = '1';
+        }, 100);
+    </script>
+</body>
+</html>
